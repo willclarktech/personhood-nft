@@ -1,0 +1,17 @@
+{
+	"name": "personhood-nft-contracts",
+	"version": "0.0.0",
+	"author": "willclarktech <willclarktech@users.noreply.github.com>",
+	"description": "Smart contracts for Personhood NFT",
+	"keywords": [
+		"personhood",
+		"nft"
+	],
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/willclarktech/personhood-nft/tree/master/packages/personhood-nft-contracts/"
+	},
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	}
+}
