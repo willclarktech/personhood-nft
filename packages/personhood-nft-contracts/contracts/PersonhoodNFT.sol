@@ -2,9 +2,10 @@ pragma solidity >=0.5.12 <0.6.0;
 
 import "@openzeppelin/contracts/drafts/Counters.sol";
 import '@openzeppelin/contracts/ownership/Ownable.sol';
+import '@openzeppelin/contracts/token/ERC721/ERC721Burnable.sol';
 import '@openzeppelin/contracts/token/ERC721/ERC721Full.sol';
 
-contract PersonhoodNFT is ERC721Full, Ownable {
+contract PersonhoodNFT is ERC721Full, ERC721Burnable, Ownable {
 	using Counters for Counters.Counter;
 
 	struct Personhood {
@@ -35,5 +36,10 @@ contract PersonhoodNFT is ERC721Full, Ownable {
 	function get(uint256 tokenId) external view returns (address issuer, uint256 timestamp) {
 		Personhood memory personhood = _personhoods[tokenId];
 		return (personhood.issuer, personhood.timestamp);
+	}
+
+	function spend(uint256 tokenId) external {
+		burn(tokenId);
+		delete _personhoods[tokenId];
 	}
 }
