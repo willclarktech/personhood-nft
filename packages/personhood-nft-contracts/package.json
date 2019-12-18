@@ -12,6 +12,7 @@
 		"url": "https://github.com/willclarktech/personhood-nft/tree/master/packages/personhood-nft-contracts/"
 	},
 	"scripts": {
+		"serve": "ganache-cli",
 		"dev": "truffle develop",
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
