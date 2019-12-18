@@ -20,7 +20,10 @@
 		"packages/*"
 	],
 	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1"
+		"format": "lerna run format",
+		"lint": "lerna run lint",
+		"test": "lerna run test",
+		"build": "lerna run build"
 	},
 	"devDependencies": {
 		"lerna": "^3.19.0"
