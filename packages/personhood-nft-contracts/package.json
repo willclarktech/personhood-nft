@@ -14,10 +14,12 @@
 	"scripts": {
 		"serve": "ganache-cli",
 		"dev": "truffle develop",
+		"lint": "eslint .",
 		"test": "truffle test"
 	},
 	"devDependencies": {
 		"@openzeppelin/contracts": "^2.4.0",
+		"eslint": "^6.7.2",
 		"ganache-cli": "^6.7.0",
 		"truffle": "^5.1.4"
 	}
