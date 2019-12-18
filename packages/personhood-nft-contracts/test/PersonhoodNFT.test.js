@@ -30,5 +30,18 @@ contract(
 			).toNumber();
 			expect(retrievedTokenId).to.equal(tokenId);
 		});
+
+		it("retrieves a token", async () => {
+			const instance = await PersonhoodNFT.deployed();
+			const timestampBefore = Math.floor(Date.now() / 1000);
+			const identificationResult = await instance.identify(defaultPerson, {
+				from: defaultIdentifier
+			});
+			const tokenId = identificationResult.logs[0].args.tokenId.toNumber();
+
+			const getResult = await instance.get(tokenId);
+			expect(getResult.issuer).to.equal(defaultIdentifier);
+			expect(getResult.timestamp.toNumber()).to.be.at.least(timestampBefore);
+		});
 	}
 );
