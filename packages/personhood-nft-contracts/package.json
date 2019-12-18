@@ -14,7 +14,7 @@
 	"scripts": {
 		"serve": "ganache-cli",
 		"dev": "truffle develop",
-		"test": "echo \"Error: no test specified\" && exit 1"
+		"test": "truffle test"
 	},
 	"devDependencies": {
 		"@openzeppelin/contracts": "^2.4.0",
