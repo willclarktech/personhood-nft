@@ -1,0 +1,22 @@
+{
+	"name": "personhood-nft",
+	"private": true,
+	"version": "0.0.0",
+	"author": "willclarktech <willclarktech@users.noreply.github.com>",
+	"description": "NFTs for persons",
+	"keywords": [
+		"personhood",
+		"nft"
+	],
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/willclarktech/personhood-nft.git"
+	},
+	"bugs": {
+		"url": "https://github.com/willclarktech/personhood-nft/issues"
+	},
+	"homepage": "https://github.com/willclarktech/personhood-nft#readme",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	}
+}
