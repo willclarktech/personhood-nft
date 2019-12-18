@@ -31,4 +31,9 @@ contract PersonhoodNFT is ERC721Full, Ownable {
 
 		return tokenId;
 	}
+
+	function get(uint256 tokenId) external view returns (address issuer, uint256 timestamp) {
+		Personhood memory personhood = _personhoods[tokenId];
+		return (personhood.issuer, personhood.timestamp);
+	}
 }
