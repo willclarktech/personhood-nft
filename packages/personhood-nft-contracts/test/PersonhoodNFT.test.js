@@ -1,5 +1,7 @@
 const PersonhoodNFT = artifacts.require("PersonhoodNFT");
 
+const nullAddress = "0x0000000000000000000000000000000000000000";
+
 contract(
 	"PersonhoodNFT",
 	([_rootAccount, defaultIdentifier, defaultPerson]) => {
@@ -42,6 +44,29 @@ contract(
 			const getResult = await instance.get(tokenId);
 			expect(getResult.issuer).to.equal(defaultIdentifier);
 			expect(getResult.timestamp.toNumber()).to.be.at.least(timestampBefore);
+		});
+
+		it("spends a token", async () => {
+			const instance = await PersonhoodNFT.deployed();
+			const identificationResult = await instance.identify(defaultPerson, {
+				from: defaultIdentifier
+			});
+			const tokenId = identificationResult.logs[0].args.tokenId.toNumber();
+			const ownedTokensBefore = (
+				await instance.balanceOf(defaultPerson)
+			).toNumber();
+
+			await instance.spend(tokenId, {
+				from: defaultPerson
+			});
+			const ownedTokensAfter = (
+				await instance.balanceOf(defaultPerson)
+			).toNumber();
+			expect(ownedTokensAfter).to.equal(ownedTokensBefore - 1);
+
+			const getResult = await instance.get(tokenId);
+			expect(getResult.issuer).to.equal(nullAddress);
+			expect(getResult.timestamp.toNumber()).to.equal(0);
 		});
 	}
 );
