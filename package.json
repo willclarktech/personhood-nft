@@ -16,6 +16,9 @@
 		"url": "https://github.com/willclarktech/personhood-nft/issues"
 	},
 	"homepage": "https://github.com/willclarktech/personhood-nft#readme",
+	"workspaces": [
+		"packages/*"
+	],
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
