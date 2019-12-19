@@ -1,0 +1,10 @@
+{
+	"name": "kitten-as-a-service",
+	"version": "0.0.0",
+	"author": "willclarktech <willclarktech@users.noreply.github.com>",
+	"description": "Kitten as a Service (for people only!)",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/willclarktech/personhood-nft/tree/master/packages/kitten-as-a-service/"
+	}
+}
