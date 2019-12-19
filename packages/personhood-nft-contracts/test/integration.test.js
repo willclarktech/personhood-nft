@@ -46,7 +46,7 @@ contract(
 			const kittenResponse3 = await webServiceClient.get("/kitten", {
 				headers: { cookie }
 			});
-			expect(kittenResponse3.data).to.equal("have a kitten");
+			expect(kittenResponse3.data.length).to.be.above(80000);
 		});
 	}
 );
