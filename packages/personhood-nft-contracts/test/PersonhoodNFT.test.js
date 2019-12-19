@@ -8,7 +8,7 @@ const decodeHex = str => Buffer.from(str.slice(2), "hex");
 
 contract(
 	"PersonhoodNFT",
-	([_rootAccount, defaultIdentifier, defaultPerson, defaultService]) => {
+	([_rootAccount, defaultIssuer, defaultPerson, defaultService]) => {
 		it("deploys successfully", async () => {
 			const instance = await PersonhoodNFT.deployed();
 			const name = await instance.name();
@@ -22,7 +22,7 @@ contract(
 			).toNumber();
 
 			const result = await instance.identify(defaultPerson, {
-				from: defaultIdentifier
+				from: defaultIssuer
 			});
 			const tokenId = result.logs[0].args.tokenId.toNumber();
 
@@ -39,21 +39,21 @@ contract(
 
 		it("retrieves a token", async () => {
 			const instance = await PersonhoodNFT.deployed();
-			const timestampBefore = Math.floor(Date.now() / 1000);
+			const blockHeightBefore = (await web3.eth.getBlock()).number;
 			const identificationResult = await instance.identify(defaultPerson, {
-				from: defaultIdentifier
+				from: defaultIssuer
 			});
 			const tokenId = identificationResult.logs[0].args.tokenId.toNumber();
 
 			const getResult = await instance.get(tokenId);
-			expect(getResult.issuer).to.equal(defaultIdentifier);
-			expect(getResult.timestamp.toNumber()).to.be.at.least(timestampBefore);
+			expect(getResult.issuer).to.equal(defaultIssuer);
+			expect(getResult.height.toNumber()).to.be.above(blockHeightBefore);
 		});
 
 		it("spends a token", async () => {
 			const instance = await PersonhoodNFT.deployed();
 			const identificationResult = await instance.identify(defaultPerson, {
-				from: defaultIdentifier
+				from: defaultIssuer
 			});
 			const tokenId = identificationResult.logs[0].args.tokenId.toNumber();
 			const ownedTokensBefore = (
@@ -70,13 +70,13 @@ contract(
 
 			const getResult = await instance.get(tokenId);
 			expect(getResult.issuer).to.equal(nullAddress);
-			expect(getResult.timestamp.toNumber()).to.equal(0);
+			expect(getResult.height.toNumber()).to.equal(0);
 		});
 
 		it("emits a Spend event when spending", async () => {
 			const instance = await PersonhoodNFT.deployed();
 			const identificationResult = await instance.identify(defaultPerson, {
-				from: defaultIdentifier
+				from: defaultIssuer
 			});
 			const tokenId = identificationResult.logs[0].args.tokenId.toNumber();
 			const memo = createMemo();
