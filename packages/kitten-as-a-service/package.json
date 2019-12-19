@@ -19,6 +19,7 @@
 	},
 	"dependencies": {
 		"express": "^4.17.1",
-		"express-session": "^1.17.0"
+		"express-session": "^1.17.0",
+		"web3": "^1.2.4"
 	}
 }
