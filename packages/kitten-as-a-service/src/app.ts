@@ -1,3 +1,4 @@
+import crypto from "crypto";
 import express, { RequestHandler } from "express";
 import session from "express-session";
 
@@ -16,20 +17,24 @@ app.use(
 	})
 );
 
-const getSession: RequestHandler = (req, res, next) => {
-	if (req.session) req.session.seen = true;
-	res.send("here you go");
+const getChallenge: RequestHandler = (req, res) => {
+	if (!req.session) throw new Error("session not found");
+	const challenge = crypto.randomBytes(32).toString("hex");
+	req.session.challenge = challenge;
+	res.send(challenge);
 };
-app.get("/session", getSession);
 
 const hasPaid: RequestHandler = (req, res, next) => {
-	if (req.session?.seen) req.session.paid = true;
+	if (req.session?.challenge) req.session.paid = true;
 	next();
 };
-const serveText: RequestHandler = (req, res, next) => {
+
+const serveText: RequestHandler = (req, res) => {
 	const text = req.session?.paid ? "have a kitten" : "you don’t get a kitten";
 	res.send(text);
 };
+
+app.get("/challenge", getChallenge);
 app.use("/kitten", hasPaid, serveText);
 
 export default app;
