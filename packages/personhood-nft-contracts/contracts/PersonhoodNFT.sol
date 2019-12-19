@@ -20,7 +20,7 @@ contract PersonhoodNFT is ERC721Full, ERC721Burnable, Ownable {
 
 	constructor() ERC721Full("PersonhoodNFT", "PNFT") public {}
 
-	function identify(address person) external returns (uint256) {
+	function issue(address person) external returns (uint256) {
 		tokenIds.increment();
 
 		uint256 tokenId = tokenIds.current();
