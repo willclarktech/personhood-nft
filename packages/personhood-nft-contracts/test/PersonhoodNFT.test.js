@@ -78,7 +78,8 @@ contract(
 			const identificationResult = await instance.identify(defaultPerson, {
 				from: defaultIssuer
 			});
-			const tokenId = identificationResult.logs[0].args.tokenId.toNumber();
+			const { args, blockNumber } = identificationResult.logs[0];
+			const tokenId = args.tokenId.toNumber();
 			const memo = createMemo();
 
 			const spendResult = await instance.spend(tokenId, defaultService, memo, {
@@ -89,6 +90,8 @@ contract(
 			const spendLog = spendResult.logs[1];
 			expect(spendLog.event).to.equal("Spend");
 			expect(spendLog.args.tokenId.toNumber()).to.equal(tokenId);
+			expect(spendLog.args.issuer).to.equal(defaultIssuer);
+			expect(spendLog.args.height.toNumber()).to.equal(blockNumber);
 			expect(spendLog.args.recipient).to.equal(defaultService);
 			expect(decodeHex(spendLog.args.memo).slice(0, memo.length)).to.deep.equal(
 				memo
