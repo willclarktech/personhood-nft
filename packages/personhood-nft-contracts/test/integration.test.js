@@ -15,10 +15,15 @@ contract(
 			const instance = await PersonhoodNFT.deployed();
 
 			// No session -> no kitten
-			const kittenResponse1 = await webServiceClient.get("/kitten");
-			expect(kittenResponse1.data).to.equal(
-				"visit /challenge to get a challenge"
-			);
+			try {
+				await webServiceClient.get("/kitten");
+				fail("unexpected successful kitten get");
+			} catch (error) {
+				expect(error.response.status).to.equal(401);
+				expect(error.response.data).to.equal(
+					"visit /challenge to get a challenge"
+				);
+			}
 
 			const challengeResponse = await webServiceClient.get("/challenge");
 			const challenge = challengeResponse.data;
@@ -26,12 +31,18 @@ contract(
 
 			const cookieToSet = challengeResponse.headers["set-cookie"][0];
 			const cookie = cookieToSet.slice(0, cookieToSet.indexOf(";"));
+			if (process.env.DEBUG) console.debug(cookie);
 
 			// No token burned -> no kitten
-			const kittenResponse2 = await webServiceClient.get("/kitten", {
-				headers: { cookie }
-			});
-			expect(kittenResponse2.data).to.equal("complete the challenge");
+			try {
+				await webServiceClient.get("/kitten", {
+					headers: { cookie }
+				});
+				fail("unexpected successful kitten get");
+			} catch (error) {
+				expect(error.response.status).to.equal(401);
+				expect(error.response.data).to.equal("complete the challenge");
+			}
 
 			const issueResult = await instance.identify(defaultPerson, {
 				from: defaultIssuer
@@ -43,10 +54,10 @@ contract(
 			});
 
 			// Token burned -> kitten :)
-			const kittenResponse3 = await webServiceClient.get("/kitten", {
+			const kittenResponse = await webServiceClient.get("/kitten", {
 				headers: { cookie }
 			});
-			expect(kittenResponse3.data.length).to.be.above(80000);
+			expect(kittenResponse.data.length).to.be.above(80000);
 		});
 	}
 );
