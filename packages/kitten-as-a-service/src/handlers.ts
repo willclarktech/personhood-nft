@@ -1,5 +1,7 @@
 import crypto from "crypto";
 import { RequestHandler } from "express";
+import { readFileSync } from "fs";
+import path from "path";
 import Web3 from "web3";
 
 export const getChallenge: (
@@ -39,5 +41,7 @@ export const getChallenge: (
 };
 
 export const serveText: RequestHandler = (req, res) => {
-	res.send("have a kitten");
+	const kittenPath = path.join(__dirname, "..", "static", "kitten.jpg");
+	const kitten = readFileSync(kittenPath);
+	res.send(kitten);
 };
