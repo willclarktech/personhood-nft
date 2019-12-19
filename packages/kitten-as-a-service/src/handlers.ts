@@ -24,9 +24,9 @@ export const getChallenge: (
 
 	subscription
 		.on("data", ({ data }) => {
-			// const destination = data.slice(66, 130);
+			// const recipient = data.slice(66, 130);
 			const memo = data.slice(130, 194);
-			// if (destination === process.env.ADDRESS && memo === challenge) {
+			// if (recipient === process.env.ADDRESS && memo === challenge) {
 			if (memo === challenge) {
 				challenges.add(challenge);
 				subscription.unsubscribe();
