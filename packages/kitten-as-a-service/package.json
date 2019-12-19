@@ -14,5 +14,8 @@
 	},
 	"devDependencies": {
 		"typescript": "^3.7.3"
+	},
+	"dependencies": {
+		"express": "^4.17.1"
 	}
 }
