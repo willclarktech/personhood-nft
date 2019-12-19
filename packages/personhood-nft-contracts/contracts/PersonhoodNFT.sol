@@ -10,7 +10,7 @@ contract PersonhoodNFT is ERC721Full, ERC721Burnable, Ownable {
 
 	struct Personhood {
 		address issuer;
-		uint256 timestamp;
+		uint256 height;
 	}
 
 	Counters.Counter private tokenIds;
@@ -26,7 +26,7 @@ contract PersonhoodNFT is ERC721Full, ERC721Burnable, Ownable {
 		uint256 tokenId = tokenIds.current();
 		Personhood memory personhood = Personhood({
 			issuer: msg.sender,
-			timestamp: now
+			height: block.number
 		});
 
 		_mint(person, tokenId);
@@ -35,9 +35,9 @@ contract PersonhoodNFT is ERC721Full, ERC721Burnable, Ownable {
 		return tokenId;
 	}
 
-	function get(uint256 tokenId) external view returns (address issuer, uint256 timestamp) {
+	function get(uint256 tokenId) external view returns (address issuer, uint256 height) {
 		Personhood memory personhood = personhoods[tokenId];
-		return (personhood.issuer, personhood.timestamp);
+		return (personhood.issuer, personhood.height);
 	}
 
 	function spend(uint256 tokenId, address recipient, bytes32 memo) external {
