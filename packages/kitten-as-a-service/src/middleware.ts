@@ -14,10 +14,12 @@ export const hasPaid: (
 ) => RequestHandler = challenges => async (req, res, next) => {
 	const challenge = req.session?.challenge;
 	if (!challenge) {
-		return res.send("visit /challenge to get a challenge");
+		res.status(401).send("visit /challenge to get a challenge");
+		return;
 	}
 	if (!challenges.has(challenge)) {
-		return res.send("complete the challenge");
+		res.status(401).send("complete the challenge");
+		return;
 	}
 
 	req.session!.challenge = undefined;
