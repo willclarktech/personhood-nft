@@ -20,6 +20,7 @@ export const hasPaid: (
 		return res.send("complete the challenge");
 	}
 
+	req.session!.challenge = undefined;
 	challenges.delete(challenge);
 	next();
 };
