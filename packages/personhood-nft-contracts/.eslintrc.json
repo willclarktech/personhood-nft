@@ -3,6 +3,7 @@
 	"globals": {
 		"artifacts": true,
 		"contract": true,
-		"expect": true
+		"expect": true,
+		"web3": true
 	}
 }
