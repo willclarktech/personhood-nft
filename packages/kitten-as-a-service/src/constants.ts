@@ -1,6 +1,6 @@
 export const oneHour = 3600000;
 export const spendEventTopic =
-	"0xf284472981c03adf655fea3bd63fce13ffc577bd2c4f3978ebf36c56c1cda2a4";
+	"0x5d578c853f453cdb9f2bd571dfa428d03e9112e36198626fd6954657625463e7";
 
 // TODO: Set these dynamically
 export const sessionSecret = "keyboard cat";

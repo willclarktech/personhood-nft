@@ -23,9 +23,13 @@ export const getChallenge: (
 	const timeout = setTimeout(() => subscription.unsubscribe(), 3600000);
 
 	subscription
-		.on("data", ({ data }) => {
-			// const recipient = data.slice(66, 130);
-			const memo = data.slice(130, 194);
+		.on("data", ({ data, topics }) => {
+			// const prefix = data.slice(0, 2);
+			// const tokenId = data.slice(2, 66);
+			// const issuer = data.slice(66, 130);
+			// const height = data.slice(130, 194);
+			// const recipient = data.slice(194, 258);
+			const memo = data.slice(258, 322);
 			// if (recipient === process.env.ADDRESS && memo === challenge) {
 			if (memo === challenge) {
 				challenges.add(challenge);
