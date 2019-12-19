@@ -16,7 +16,7 @@ contract PersonhoodNFT is ERC721Full, ERC721Burnable, Ownable {
 	Counters.Counter private tokenIds;
 	mapping (uint256 => Personhood) private personhoods;
 
-	event Spend(uint256 tokenId, address recipient, bytes32 memo);
+	event Spend(uint256 tokenId, address issuer, uint256 height, address recipient, bytes32 memo);
 
 	constructor() ERC721Full("PersonhoodNFT", "PNFT") public {}
 
@@ -35,14 +35,17 @@ contract PersonhoodNFT is ERC721Full, ERC721Burnable, Ownable {
 		return tokenId;
 	}
 
-	function get(uint256 tokenId) external view returns (address issuer, uint256 height) {
+	function get(uint256 tokenId) public view returns (address issuer, uint256 height) {
 		Personhood memory personhood = personhoods[tokenId];
 		return (personhood.issuer, personhood.height);
 	}
 
 	function spend(uint256 tokenId, address recipient, bytes32 memo) external {
+		(address issuer, uint256 height) = get(tokenId);
+
 		burn(tokenId);
 		delete personhoods[tokenId];
-		emit Spend(tokenId, recipient, memo);
+
+		emit Spend(tokenId, issuer, height, recipient, memo);
 	}
 }
