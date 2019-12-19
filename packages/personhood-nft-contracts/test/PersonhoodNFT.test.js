@@ -21,7 +21,7 @@ contract(
 				await instance.balanceOf(defaultPerson)
 			).toNumber();
 
-			const result = await instance.identify(defaultPerson, {
+			const result = await instance.issue(defaultPerson, {
 				from: defaultIssuer
 			});
 			const tokenId = result.logs[0].args.tokenId.toNumber();
@@ -40,7 +40,7 @@ contract(
 		it("retrieves a token", async () => {
 			const instance = await PersonhoodNFT.deployed();
 			const blockHeightBefore = (await web3.eth.getBlock()).number;
-			const identificationResult = await instance.identify(defaultPerson, {
+			const identificationResult = await instance.issue(defaultPerson, {
 				from: defaultIssuer
 			});
 			const tokenId = identificationResult.logs[0].args.tokenId.toNumber();
@@ -52,7 +52,7 @@ contract(
 
 		it("spends a token", async () => {
 			const instance = await PersonhoodNFT.deployed();
-			const identificationResult = await instance.identify(defaultPerson, {
+			const identificationResult = await instance.issue(defaultPerson, {
 				from: defaultIssuer
 			});
 			const tokenId = identificationResult.logs[0].args.tokenId.toNumber();
@@ -75,7 +75,7 @@ contract(
 
 		it("emits a Spend event when spending", async () => {
 			const instance = await PersonhoodNFT.deployed();
-			const identificationResult = await instance.identify(defaultPerson, {
+			const identificationResult = await instance.issue(defaultPerson, {
 				from: defaultIssuer
 			});
 			const { args, blockNumber } = identificationResult.logs[0];

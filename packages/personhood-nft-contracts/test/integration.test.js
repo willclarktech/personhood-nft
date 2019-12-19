@@ -44,7 +44,7 @@ contract(
 				expect(error.response.data).to.equal("complete the challenge");
 			}
 
-			const issueResult = await instance.identify(defaultPerson, {
+			const issueResult = await instance.issue(defaultPerson, {
 				from: defaultIssuer
 			});
 			const tokenId = issueResult.logs[0].args.tokenId.toNumber();
