@@ -2,8 +2,9 @@ const axios = require("axios");
 
 const PersonhoodNFT = artifacts.require("PersonhoodNFT");
 
+const webServicePort = process.env.WEB_SERVICE_PORT || 3000;
 const webServiceClient = axios.create({
-	baseURL: "http://localhost:3000/"
+	baseURL: `http://localhost:${webServicePort}/`
 });
 
 const encodeHex = hexString => `0x${hexString}`;
