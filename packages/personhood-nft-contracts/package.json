@@ -17,12 +17,5 @@
 		"lint": "eslint .",
 		"test:integration": "truffle test ./test/integration.test.js",
 		"test": "truffle test"
-	},
-	"devDependencies": {
-		"@openzeppelin/contracts": "^2.4.0",
-		"axios": "^0.19.0",
-		"eslint": "^6.7.2",
-		"ganache-cli": "^6.7.0",
-		"truffle": "^5.1.4"
 	}
 }
