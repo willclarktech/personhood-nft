@@ -26,13 +26,19 @@ _Step 2:_ Deploy a market rate API server:
 yarn lerna run serve --stream --scope market-api-example
 ```
 
-_Step 3:_ Deploy a kitten server:
+_Step 3:_ Deploy a issuer server:
+
+```
+yarn lerna run serve --stream --scope issuer-example
+```
+
+_Step 4:_ Deploy a kitten-as-a-service server:
 
 ```
 yarn lerna run serve --stream --scope kitten-as-a-service
 ```
 
-_Step 4:_ Run tests:
+_Step 5:_ Run tests:
 
 ```
 yarn lerna run test --stream
