@@ -6,10 +6,7 @@ import Web3 from "web3";
 import { Log } from "web3-core";
 import { address, minimumValue } from "./constants";
 import marketClient from "./market-client";
-
-const encodeHex = (hexString: string) => `0x${hexString}`;
-const encodeAddress = (hexString: string) => encodeHex(hexString.slice(24));
-const decodeHeight = (hexString: string) => parseInt(hexString, 16);
+import { parseSpendEventLog } from "./encoding";
 
 export const getChallenge: (
 	web3: Web3,
@@ -46,16 +43,13 @@ export const getChallenge: (
 			return;
 		}
 
-		// const prefix = data.slice(0, 2);
-		const tokenIdBytes = data.slice(2, 66);
-		const tokenId = encodeHex(tokenIdBytes);
-		const issuerBytes = data.slice(66, 130);
-		const issuer = encodeAddress(issuerBytes);
-		const heightBytes = data.slice(130, 194);
-		const height = decodeHeight(heightBytes);
-		const recipientBytes = data.slice(194, 258);
-		const recipientAddress = encodeAddress(recipientBytes);
-		const memo = data.slice(258, 322);
+		const {
+			tokenId,
+			issuer,
+			height,
+			recipientAddress,
+			memo
+		} = parseSpendEventLog(data);
 
 		if (recipientAddress === address.toLowerCase() && memo === challenge) {
 			try {
