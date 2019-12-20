@@ -4,6 +4,7 @@
 		"artifacts": true,
 		"contract": true,
 		"expect": true,
+		"fail": true,
 		"web3": true
 	}
 }
