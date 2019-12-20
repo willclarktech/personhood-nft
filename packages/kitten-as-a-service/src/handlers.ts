@@ -1,12 +1,56 @@
 import crypto from "crypto";
-import { RequestHandler } from "express";
+import { Request, RequestHandler } from "express";
 import { readFileSync } from "fs";
 import path from "path";
 import Web3 from "web3";
 import { Log } from "web3-core";
 import { address, minimumValue } from "./constants";
-import marketClient from "./market-client";
 import { parseSpendEventLog } from "./encoding";
+import marketClient from "./market-client";
+
+const createDataHandler = (
+	req: Request,
+	challenges: Set<string>,
+	challenge: string,
+	handleSuccess: () => void,
+	handleError: (error: Error) => void
+) => async ({ data }: Log) => {
+	const { session } = req;
+	if (!session) {
+		return handleError(new Error("session not found"));
+	}
+
+	const {
+		tokenId,
+		issuer,
+		height,
+		recipientAddress,
+		memo
+	} = parseSpendEventLog(data);
+
+	if (recipientAddress === address.toLowerCase() && memo === challenge) {
+		try {
+			const { data: marketData } = await marketClient.get("/rate", {
+				params: {
+					tokenId,
+					issuer,
+					height
+				}
+			});
+			if (typeof marketData.rate !== "number") {
+				throw new Error("unrecognised response from market API");
+			}
+			session!.value += marketData.rate;
+		} catch (error) {
+			console.error(error.message || error.code || "unknown error");
+		}
+	}
+
+	if (session!.value >= minimumValue) {
+		challenges.add(challenge);
+		handleSuccess();
+	}
+};
 
 export const getChallenge: (
 	web3: Web3,
@@ -32,50 +76,19 @@ export const getChallenge: (
 		if (req.session) req.session.challenge = undefined;
 	};
 
-	const errorHandler = (error: Error) => {
+	const onError = (error: Error) => {
 		console.error(error);
 		clearChallenge();
 	};
-	const dataHandler = async ({ data }: Log) => {
-		const { session } = req;
-		if (!session) {
-			errorHandler(new Error("session not found"));
-			return;
-		}
+	const onData = createDataHandler(
+		req,
+		challenges,
+		challenge,
+		clearChallenge,
+		onError
+	);
 
-		const {
-			tokenId,
-			issuer,
-			height,
-			recipientAddress,
-			memo
-		} = parseSpendEventLog(data);
-
-		if (recipientAddress === address.toLowerCase() && memo === challenge) {
-			try {
-				const { data: marketData } = await marketClient.get("/rate", {
-					params: {
-						tokenId,
-						issuer,
-						height
-					}
-				});
-				if (typeof marketData.rate !== "number") {
-					throw new Error("unrecognised response from market API");
-				}
-				session!.value += marketData.rate;
-			} catch (error) {
-				console.error(error.message || error.code || "unknown error");
-			}
-		}
-
-		if (session!.value >= minimumValue) {
-			challenges.add(challenge);
-			clearChallenge();
-		}
-	};
-
-	subscription.on("data", dataHandler).on("error", errorHandler);
+	subscription.on("data", onData).on("error", onError);
 };
 
 export const serveText: RequestHandler = (req, res) => {
