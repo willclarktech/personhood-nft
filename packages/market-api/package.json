@@ -7,6 +7,10 @@
 		"type": "git",
 		"url": "https://github.com/willclarktech/personhood-nft/tree/master/packages/market-api/"
 	},
+	"scripts": {
+		"build": "tsc",
+		"serve": "node dist/server.js"
+	},
 	"dependencies": {
 		"express": "^4.17.1"
 	},
