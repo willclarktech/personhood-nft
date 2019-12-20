@@ -12,7 +12,7 @@
 		"url": "https://github.com/willclarktech/personhood-nft/tree/master/packages/personhood-nft-contracts/"
 	},
 	"scripts": {
-		"serve": "ganache-cli",
+		"serve": "ganache-cli --mnemonic \"myth like bonus scare over problem client lizard pioneer submit female collect\"",
 		"dev": "truffle develop",
 		"lint": "eslint .",
 		"test": "truffle test"
