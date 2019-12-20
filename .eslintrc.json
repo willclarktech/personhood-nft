@@ -5,10 +5,11 @@
 		"mocha": true,
 		"node": true
 	},
-	"extends": "eslint:recommended",
+	"parser": "@typescript-eslint/parser",
 	"parserOptions": {
 		"ecmaVersion": 2018
 	},
+	"extends": "eslint:recommended",
 	"rules": {
 		"no-unused-vars": ["error", { "argsIgnorePattern": "^_" }]
 	}
