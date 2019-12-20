@@ -26,6 +26,8 @@
 		"build": "lerna run build"
 	},
 	"devDependencies": {
+		"@types/express": "^4.17.2",
+		"@types/express-session": "^1.15.16",
 		"lerna": "^3.19.0",
 		"typescript": "^3.7.3"
 	}
