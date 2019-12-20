@@ -15,6 +15,7 @@
 		"serve": "ganache-cli --mnemonic \"myth like bonus scare over problem client lizard pioneer submit female collect\"",
 		"dev": "truffle develop",
 		"lint": "eslint .",
+		"test:integration": "truffle test ./test/integration.test.js",
 		"test": "truffle test"
 	},
 	"devDependencies": {
