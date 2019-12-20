@@ -12,7 +12,12 @@ export const sessionMiddleware = session({
 export const hasPaid: (
 	challenges: Set<string>
 ) => RequestHandler = challenges => async (req, res, next) => {
-	const challenge = req.session?.challenge;
+	const { session } = req;
+	if (!session) {
+		res.status(401).send("session not found");
+		return;
+	}
+	const challenge = session.challenge;
 	if (!challenge) {
 		res.status(401).send("visit /challenge to get a challenge");
 		return;
@@ -22,7 +27,7 @@ export const hasPaid: (
 		return;
 	}
 
-	req.session!.challenge = undefined;
+	session.challenge = undefined;
 	challenges.delete(challenge);
 	next();
 };

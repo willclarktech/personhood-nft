@@ -20,15 +20,9 @@ const createDataHandler = (
 		return handleError(new Error("session not found"));
 	}
 
-	const {
-		tokenId,
-		issuer,
-		height,
-		recipientAddress,
-		memo
-	} = parseSpendEventLog(data);
+	const { tokenId, issuer, height, recipient, memo } = parseSpendEventLog(data);
 
-	if (recipientAddress === address.toLowerCase() && memo === challenge) {
+	if (recipient === address.toLowerCase() && memo === challenge) {
 		try {
 			const { data: marketData } = await marketClient.get("/rate", {
 				params: {
@@ -40,13 +34,13 @@ const createDataHandler = (
 			if (typeof marketData.rate !== "number") {
 				throw new Error("unrecognised response from market API");
 			}
-			session!.value += marketData.rate;
+			session.value += marketData.rate;
 		} catch (error) {
 			console.error(error.message || error.code || "unknown error");
 		}
 	}
 
-	if (session!.value >= minimumValue) {
+	if (session.value >= minimumValue) {
 		challenges.add(challenge);
 		handleSuccess();
 	}
@@ -57,11 +51,12 @@ export const getChallenge: (
 	topics: string[],
 	challenges: Set<string>
 ) => RequestHandler = (web3, topics, challenges) => (req, res) => {
-	if (!req.session) throw new Error("session not found");
+	const { session } = req;
+	if (!session) throw new Error("session not found");
 
 	const challenge = crypto.randomBytes(32).toString("hex");
-	req.session.value = 0;
-	req.session.challenge = challenge;
+	session.value = 0;
+	session.challenge = challenge;
 	res.send(challenge);
 
 	const options = {
@@ -70,13 +65,13 @@ export const getChallenge: (
 	};
 	const subscription = web3.eth.subscribe("logs", options);
 	const timeout = setTimeout(() => subscription.unsubscribe(), 3600000);
-	const clearChallenge = () => {
+	const clearChallenge = (): void => {
 		subscription.unsubscribe();
 		clearTimeout(timeout);
-		if (req.session) req.session.challenge = undefined;
+		session.challenge = undefined;
 	};
 
-	const onError = (error: Error) => {
+	const onError = (error: Error): void => {
 		console.error(error);
 		clearChallenge();
 	};
