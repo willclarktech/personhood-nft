@@ -1,0 +1,10 @@
+{
+	"name": "market-api",
+	"version": "0.0.0",
+	"author": "willclarktech <willclarktech@users.noreply.github.com>",
+	"description": "An API to get market data for Personhood NFTs",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/willclarktech/personhood-nft/tree/master/packages/market-api/"
+	}
+}
