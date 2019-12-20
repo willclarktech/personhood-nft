@@ -11,7 +11,7 @@
 		"lint": "eslint src/**/*.ts",
 		"build": "tsc",
 		"preserve": "yarn build",
-		"serve": "node dist/server.js"
+		"serve": "node build/server.js"
 	},
 	"dependencies": {
 		"express": "^4.17.1"
