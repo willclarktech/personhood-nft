@@ -23,7 +23,7 @@ yarn lerna run serve --stream --scope personhood-nft-contracts
 _Step 2:_ Deploy a market rate API server:
 
 ```
-yarn lerna run serve --stream --scope market-api
+yarn lerna run serve --stream --scope market-api-example
 ```
 
 _Step 3:_ Deploy a kitten server:
