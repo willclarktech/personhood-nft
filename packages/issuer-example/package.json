@@ -1,0 +1,19 @@
+{
+	"name": "issuer-example",
+	"version": "0.0.0",
+	"author": "willclarktech <willclarktech@users.noreply.github.com>",
+	"description": "An example centralised issuer of Personhood NFTs",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/willclarktech/personhood-nft/tree/master/packages/issuer-example/"
+	},
+	"scripts": {
+		"lint": "eslint src/**/*.ts",
+		"build": "tsc",
+		"preserve": "yarn build",
+		"serve": "node build/server.js"
+	},
+	"dependencies": {
+		"express": "^4.17.1"
+	}
+}
