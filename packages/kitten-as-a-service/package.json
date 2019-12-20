@@ -10,6 +10,7 @@
 	"scripts": {
 		"lint": "eslint src/**/*.ts",
 		"build": "tsc",
+		"preserve": "yarn build",
 		"serve": "node dist/server.js"
 	},
 	"devDependencies": {

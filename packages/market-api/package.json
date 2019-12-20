@@ -9,6 +9,7 @@
 	},
 	"scripts": {
 		"build": "tsc",
+		"preserve": "yarn build",
 		"serve": "node dist/server.js"
 	},
 	"dependencies": {
