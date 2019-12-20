@@ -6,11 +6,11 @@ export const sessionMiddleware = session({
 	secret: sessionSecret,
 	resave: false,
 	saveUninitialized: true,
-	cookie: { maxAge: oneHour }
+	cookie: { maxAge: oneHour },
 });
 
 export const hasPaid: (
-	challenges: Set<string>
+	challenges: Set<string>,
 ) => RequestHandler = challenges => async (req, res, next) => {
 	const { session } = req;
 	if (!session) {

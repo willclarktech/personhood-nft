@@ -13,7 +13,7 @@ const createDataHandler = (
 	challenges: Set<string>,
 	challenge: string,
 	handleSuccess: () => void,
-	handleError: (error: Error) => void
+	handleError: (error: Error) => void,
 ) => async ({ data }: Log) => {
 	const { session } = req;
 	if (!session) {
@@ -28,8 +28,8 @@ const createDataHandler = (
 				params: {
 					tokenId,
 					issuer,
-					height
-				}
+					height,
+				},
 			});
 			if (typeof marketData.rate !== "number") {
 				throw new Error("unrecognised response from market API");
@@ -49,7 +49,7 @@ const createDataHandler = (
 export const getChallenge: (
 	web3: Web3,
 	topics: string[],
-	challenges: Set<string>
+	challenges: Set<string>,
 ) => RequestHandler = (web3, topics, challenges) => (req, res) => {
 	const { session } = req;
 	if (!session) throw new Error("session not found");
@@ -61,7 +61,7 @@ export const getChallenge: (
 
 	const options = {
 		// address: process.env.CONTRACT_ADDRESS
-		topics
+		topics,
 	};
 	const subscription = web3.eth.subscribe("logs", options);
 	const timeout = setTimeout(() => subscription.unsubscribe(), 3600000);
@@ -80,7 +80,7 @@ export const getChallenge: (
 		challenges,
 		challenge,
 		clearChallenge,
-		onError
+		onError,
 	);
 
 	subscription.on("data", onData).on("error", onError);

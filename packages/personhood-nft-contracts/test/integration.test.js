@@ -4,7 +4,7 @@ const PersonhoodNFT = artifacts.require("PersonhoodNFT");
 
 const webServicePort = process.env.WEB_SERVICE_PORT || 3000;
 const webServiceClient = axios.create({
-	baseURL: `http://localhost:${webServicePort}`
+	baseURL: `http://localhost:${webServicePort}`,
 });
 
 const encodeHex = hexString => `0x${hexString}`;
@@ -22,7 +22,7 @@ contract(
 			} catch (error) {
 				expect(error.response.status).to.equal(401);
 				expect(error.response.data).to.equal(
-					"visit /challenge to get a challenge"
+					"visit /challenge to get a challenge",
 				);
 			}
 
@@ -37,7 +37,7 @@ contract(
 			// No token burned -> no kitten
 			try {
 				await webServiceClient.get("/kitten", {
-					headers: { cookie }
+					headers: { cookie },
 				});
 				fail("unexpected successful kitten get");
 			} catch (error) {
@@ -46,16 +46,16 @@ contract(
 			}
 
 			const issueResult = await instance.issue(person, {
-				from: highValueIssuer
+				from: highValueIssuer,
 			});
 			const tokenId = issueResult.logs[0].args.tokenId.toNumber();
 			await instance.spend(tokenId, service, encodeHex(challenge), {
-				from: person
+				from: person,
 			});
 
 			// Token burned -> kitten :)
 			const kittenResponse = await webServiceClient.get("/kitten", {
-				headers: { cookie }
+				headers: { cookie },
 			});
 			expect(kittenResponse.data.length).to.be.above(80000);
 		});
@@ -72,18 +72,18 @@ contract(
 			if (process.env.DEBUG) console.debug(cookie);
 
 			const issueResult1 = await instance.issue(person, {
-				from: lowValueIssuer
+				from: lowValueIssuer,
 			});
 			const tokenId1 = issueResult1.logs[0].args.tokenId.toNumber();
 
 			await instance.spend(tokenId1, service, encodeHex(challenge), {
-				from: person
+				from: person,
 			});
 
 			// One token not worth enough -> no kitten
 			try {
 				await webServiceClient.get("/kitten", {
-					headers: { cookie }
+					headers: { cookie },
 				});
 				fail("unexpected successful kitten get");
 			} catch (error) {
@@ -92,17 +92,17 @@ contract(
 			}
 
 			const issueResult2 = await instance.issue(person, {
-				from: lowValueIssuer
+				from: lowValueIssuer,
 			});
 			const tokenId2 = issueResult2.logs[0].args.tokenId.toNumber();
 			await instance.spend(tokenId2, service, encodeHex(challenge), {
-				from: person
+				from: person,
 			});
 
 			// Two tokens still not worth enough -> no kitten
 			try {
 				await webServiceClient.get("/kitten", {
-					headers: { cookie }
+					headers: { cookie },
 				});
 				fail("unexpected successful kitten get");
 			} catch (error) {
@@ -111,18 +111,18 @@ contract(
 			}
 
 			const issueResult3 = await instance.issue(person, {
-				from: lowValueIssuer
+				from: lowValueIssuer,
 			});
 			const tokenId3 = issueResult3.logs[0].args.tokenId.toNumber();
 			await instance.spend(tokenId3, service, encodeHex(challenge), {
-				from: person
+				from: person,
 			});
 
 			// Token burned -> kitten :)
 			const kittenResponse = await webServiceClient.get("/kitten", {
-				headers: { cookie }
+				headers: { cookie },
 			});
 			expect(kittenResponse.data.length).to.be.above(80000);
 		});
-	}
+	},
 );

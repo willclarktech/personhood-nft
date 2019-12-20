@@ -14,7 +14,7 @@ const mySecondIssuer = (_: Query): number => 0.04;
 
 const handlers: { [issuer: string]: Handler } = {
 	"0xe11ba2b4d45eaed5996cd0823791e0c93114882d": myFirstIssuer,
-	"0xd03ea8624c8c5987235048901fb614fdca89b117": mySecondIssuer
+	"0xd03ea8624c8c5987235048901fb614fdca89b117": mySecondIssuer,
 };
 
 const getRate: RequestHandler = (req, res) => {

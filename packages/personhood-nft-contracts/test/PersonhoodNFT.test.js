@@ -22,7 +22,7 @@ contract(
 			).toNumber();
 
 			const result = await instance.issue(defaultPerson, {
-				from: defaultIssuer
+				from: defaultIssuer,
 			});
 			const tokenId = result.logs[0].args.tokenId.toNumber();
 
@@ -41,7 +41,7 @@ contract(
 			const instance = await PersonhoodNFT.deployed();
 			const blockHeightBefore = (await web3.eth.getBlock()).number;
 			const identificationResult = await instance.issue(defaultPerson, {
-				from: defaultIssuer
+				from: defaultIssuer,
 			});
 			const tokenId = identificationResult.logs[0].args.tokenId.toNumber();
 
@@ -53,7 +53,7 @@ contract(
 		it("spends a token", async () => {
 			const instance = await PersonhoodNFT.deployed();
 			const identificationResult = await instance.issue(defaultPerson, {
-				from: defaultIssuer
+				from: defaultIssuer,
 			});
 			const tokenId = identificationResult.logs[0].args.tokenId.toNumber();
 			const ownedTokensBefore = (
@@ -61,7 +61,7 @@ contract(
 			).toNumber();
 
 			await instance.spend(tokenId, defaultService, createMemo(), {
-				from: defaultPerson
+				from: defaultPerson,
 			});
 			const ownedTokensAfter = (
 				await instance.balanceOf(defaultPerson)
@@ -76,14 +76,14 @@ contract(
 		it("emits a Spend event when spending", async () => {
 			const instance = await PersonhoodNFT.deployed();
 			const identificationResult = await instance.issue(defaultPerson, {
-				from: defaultIssuer
+				from: defaultIssuer,
 			});
 			const { args, blockNumber } = identificationResult.logs[0];
 			const tokenId = args.tokenId.toNumber();
 			const memo = createMemo();
 
 			const spendResult = await instance.spend(tokenId, defaultService, memo, {
-				from: defaultPerson
+				from: defaultPerson,
 			});
 			expect(spendResult.logs).to.have.length(2);
 
@@ -94,8 +94,8 @@ contract(
 			expect(spendLog.args.height.toNumber()).to.equal(blockNumber);
 			expect(spendLog.args.recipient).to.equal(defaultService);
 			expect(decodeHex(spendLog.args.memo).slice(0, memo.length)).to.deep.equal(
-				memo
+				memo,
 			);
 		});
-	}
+	},
 );
