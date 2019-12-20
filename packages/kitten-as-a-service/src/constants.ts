@@ -4,5 +4,7 @@ export const spendEventTopic =
 
 // TODO: Remove defaults
 export const sessionSecret = process.env.SESSION_SECRET || "keyboard cat";
+export const address =
+	process.env.ADDRESS || "0x22d491Bde2303f2f43325b2108D26f1eAbA1e32b";
 export const ethProvider = process.env.ETH_PROVIDER || "ws://localhost:8545";
 export const port = process.env.PORT || 3000;
