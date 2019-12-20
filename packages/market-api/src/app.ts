@@ -8,9 +8,9 @@ interface Query {
 
 type Handler = (query: Query) => number;
 
-const myFirstIssuer = ({}: Query) => 0.1;
+const myFirstIssuer = (_: Query): number => 0.1;
 
-const mySecondIssuer = ({}: Query) => 0.04;
+const mySecondIssuer = (_: Query): number => 0.04;
 
 const handlers: { [issuer: string]: Handler } = {
 	"0xe11ba2b4d45eaed5996cd0823791e0c93114882d": myFirstIssuer,
