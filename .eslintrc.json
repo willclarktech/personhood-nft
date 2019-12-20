@@ -9,7 +9,8 @@
 	"parserOptions": {
 		"ecmaVersion": 2018
 	},
-	"extends": "eslint:recommended",
+	"plugins": ["@typescript-eslint"],
+	"extends": ["eslint:recommended", "plugin:@typescript-eslint/recommended"],
 	"rules": {
 		"no-unused-vars": ["error", { "argsIgnorePattern": "^_" }]
 	}
