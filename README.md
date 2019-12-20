@@ -35,5 +35,11 @@ yarn lerna run serve --stream --scope kitten-as-a-service
 _Step 4:_ Run tests:
 
 ```
-yarn lerna run test --stream --scope personhood-nft-contracts
+yarn lerna run test --stream
+```
+
+Or just the integration tests:
+
+```
+yarn lerna run test:integration --stream --scope personhood-nft-contracts
 ```
