@@ -70,8 +70,8 @@ const issueToken: RequestHandler = (req, res) => {
 
 const app = express()
 	.set("port", port)
-	.use("/", express.static(publicPath))
 	.use(bodyParser.urlencoded({ extended: true }))
+	.use("/", express.static(publicPath))
 	.post("/submit", validateForm, getPersonhoodScore, checkScore, issueToken);
 
 export default app;
