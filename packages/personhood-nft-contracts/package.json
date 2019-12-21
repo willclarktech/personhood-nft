@@ -16,6 +16,7 @@
 		"dev": "truffle develop",
 		"lint": "eslint .",
 		"test:integration": "truffle test ./test/integration.test.js",
-		"test": "truffle test"
+		"test": "truffle test",
+		"compile": "truffle compile"
 	}
 }
