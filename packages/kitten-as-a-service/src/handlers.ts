@@ -4,7 +4,7 @@ import { readFileSync } from "fs";
 import path from "path";
 import Web3 from "web3";
 import { Log } from "web3-core";
-import { address, minimumValue } from "./constants";
+import { address, contractAddress, minimumValue } from "./constants";
 import { parseSpendEventLog } from "./encoding";
 import marketClient from "./market-client";
 
@@ -60,7 +60,7 @@ export const getChallenge: (
 	res.send(challenge);
 
 	const options = {
-		// address: process.env.CONTRACT_ADDRESS
+		address: contractAddress,
 		topics,
 	};
 	const subscription = web3.eth.subscribe("logs", options);
