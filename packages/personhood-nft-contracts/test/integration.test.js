@@ -18,8 +18,11 @@ contract(
 			// No session -> no kitten
 			try {
 				await webServiceClient.get("/kitten");
-				fail("unexpected successful kitten get");
+				expect.fail("unexpected successful kitten get");
 			} catch (error) {
+				if (!error.response) {
+					expect.fail("no response");
+				}
 				expect(error.response.status).to.equal(401);
 				expect(error.response.data).to.equal(
 					"visit /challenge to get a challenge",
@@ -39,8 +42,11 @@ contract(
 				await webServiceClient.get("/kitten", {
 					headers: { cookie },
 				});
-				fail("unexpected successful kitten get");
+				expect.fail("unexpected successful kitten get");
 			} catch (error) {
+				if (!error.response) {
+					expect.fail("no response");
+				}
 				expect(error.response.status).to.equal(401);
 				expect(error.response.data).to.equal("complete the challenge");
 			}
@@ -57,6 +63,10 @@ contract(
 			const kittenResponse = await webServiceClient.get("/kitten", {
 				headers: { cookie },
 			});
+
+			if (!kittenResponse.data) {
+				expect.fail("no response data");
+			}
 			expect(kittenResponse.data.length).to.be.above(80000);
 		});
 
@@ -85,8 +95,11 @@ contract(
 				await webServiceClient.get("/kitten", {
 					headers: { cookie },
 				});
-				fail("unexpected successful kitten get");
+				expect.fail("unexpected successful kitten get");
 			} catch (error) {
+				if (!error.response) {
+					expect.fail("no response");
+				}
 				expect(error.response.status).to.equal(401);
 				expect(error.response.data).to.equal("complete the challenge");
 			}
@@ -104,8 +117,11 @@ contract(
 				await webServiceClient.get("/kitten", {
 					headers: { cookie },
 				});
-				fail("unexpected successful kitten get");
+				expect.fail("unexpected successful kitten get");
 			} catch (error) {
+				if (!error.response) {
+					expect.fail("no response");
+				}
 				expect(error.response.status).to.equal(401);
 				expect(error.response.data).to.equal("complete the challenge");
 			}
@@ -122,6 +138,9 @@ contract(
 			const kittenResponse = await webServiceClient.get("/kitten", {
 				headers: { cookie },
 			});
+			if (!kittenResponse.data) {
+				expect.fail("no response data");
+			}
 			expect(kittenResponse.data.length).to.be.above(80000);
 		});
 	},
