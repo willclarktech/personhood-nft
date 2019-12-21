@@ -12,4 +12,6 @@ export const address =
 	process.env.ADDRESS || "0x22d491Bde2303f2f43325b2108D26f1eAbA1e32b";
 export const contractAddress =
 	process.env.CONTRACT_ADDRESS || "0xcfeb869f69431e42cdb54a4f4f105c19c080a601";
-export const minimumValue = 0.1;
+export const minimumValue = process.env.MINIMUM_VALUE
+	? parseFloat(process.env.MINIMUM_VALUE)
+	: 0.1;
