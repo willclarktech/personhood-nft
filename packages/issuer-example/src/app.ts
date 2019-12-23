@@ -1,34 +1,21 @@
 import axios from "axios";
 import bodyParser from "body-parser";
 import express, { RequestHandler } from "express";
-import Web3 from "web3";
-import { AbiItem } from "web3-utils";
-import personhoodNFT from "./contracts/PersonhoodNFT.json";
 import {
-	ethProvider,
-	issuerAddress,
-	contractAddress,
 	ethAddressRegExp,
 	grecaptchaSecret,
 	minimumPersonhoodScore,
 	publicPath,
 	port,
 } from "./constants";
+import { contract } from "./ethereum";
+
 const grecaptchaClient = axios.create({
 	baseURL: "https://www.google.com/recaptcha/api",
 	headers: {
 		"Content-Type": "application/json",
 	},
 });
-const web3 = new Web3(ethProvider);
-const contractOptions = {
-	from: issuerAddress,
-};
-const contract = new web3.eth.Contract(
-	personhoodNFT.abi as AbiItem[],
-	contractAddress,
-	contractOptions,
-) as any;
 
 const validateForm: RequestHandler = (req, res, next) => {
 	const { address, grecaptcha } = req.body;
