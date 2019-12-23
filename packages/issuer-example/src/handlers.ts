@@ -4,6 +4,13 @@ import { failurePage, successPage } from "./constants";
 
 export const issueToken: RequestHandler = async (req, res) => {
 	const { address } = req.body;
+
+	if (!address) {
+		console.error("missing address");
+		res.redirect(failurePage);
+		return;
+	}
+
 	const { transactionHash } = await personhoodNftContract.methods
 		.issue(address)
 		.send();

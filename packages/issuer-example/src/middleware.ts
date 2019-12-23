@@ -2,7 +2,6 @@ import { RequestHandler } from "express";
 import {
 	ethAddressRegExp,
 	failurePage,
-	grecaptchaSecret,
 	minimumPersonhoodScore,
 } from "./constants";
 import grecaptchaClient from "./grecaptcha-client";
@@ -11,7 +10,7 @@ export const validateForm: RequestHandler = (req, res, next) => {
 	const { address, grecaptcha } = req.body;
 
 	if (!ethAddressRegExp.test(address) || !grecaptcha) {
-		console.error("bad address or grecaptcha");
+		console.error("bad address or missing grecaptcha");
 		res.redirect(failurePage);
 		return;
 	}
@@ -21,6 +20,12 @@ export const validateForm: RequestHandler = (req, res, next) => {
 
 export const getPersonhoodScore: RequestHandler = async (req, res, next) => {
 	const { grecaptcha } = req.body;
+
+	if (!grecaptcha) {
+		console.error("missing grecaptcha");
+		res.redirect(failurePage);
+		return;
+	}
 
 	const { data } = await grecaptchaClient.post(grecaptcha);
 
@@ -38,7 +43,7 @@ export const getPersonhoodScore: RequestHandler = async (req, res, next) => {
 export const checkScore: RequestHandler = (req, res, next) => {
 	const { score } = res.locals;
 
-	if (score < minimumPersonhoodScore) {
+	if (score === undefined || score < minimumPersonhoodScore) {
 		console.error(`bad personhood score: ${score}`);
 		res.redirect(failurePage);
 		return;
