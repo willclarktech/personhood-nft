@@ -1,10 +1,14 @@
 import crypto from "crypto";
 import { Request, RequestHandler } from "express";
 import { readFileSync } from "fs";
-import path from "path";
 import Web3 from "web3";
 import { Log } from "web3-core";
-import { address, contractAddress, minimumValue } from "./constants";
+import {
+	address,
+	contractAddress,
+	minimumValue,
+	kittenPath,
+} from "./constants";
 import { parseSpendEventLog } from "./encoding";
 import marketClient from "./market-client";
 
@@ -24,16 +28,16 @@ const createDataHandler = (
 
 	if (recipient === address.toLowerCase() && memo === challenge) {
 		try {
-			const { data: marketData } = await marketClient.get("/rate", {
-				params: {
-					tokenId,
-					issuer,
-					height,
-				},
+			const { data: marketData } = await marketClient.get({
+				tokenId,
+				issuer,
+				height,
 			});
+
 			if (typeof marketData.rate !== "number") {
 				throw new Error("unrecognised response from market API");
 			}
+
 			session.value += marketData.rate;
 		} catch (error) {
 			console.error(error.message || error.code || "unknown error");
@@ -87,7 +91,6 @@ export const getChallenge: (
 };
 
 export const serveText: RequestHandler = (req, res) => {
-	const kittenPath = path.join(__dirname, "..", "static", "kitten.jpg");
 	const kitten = readFileSync(kittenPath);
 	res.send(kitten);
 };

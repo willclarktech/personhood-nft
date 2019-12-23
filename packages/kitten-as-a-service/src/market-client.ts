@@ -1,8 +1,19 @@
 import axios from "axios";
-import { marketBaseUrl } from "./constants";
+import { marketBaseUrl, marketRatePath } from "./constants";
 
-const marketClient = axios.create({
+const baseClient = axios.create({
 	baseURL: marketBaseUrl,
 });
+
+type MarketClientParams = {
+	tokenId: string;
+	issuer: string;
+	height: number;
+};
+
+const marketClient = {
+	get: (params: MarketClientParams) =>
+		baseClient.get(marketRatePath, { params }),
+};
 
 export default marketClient;
