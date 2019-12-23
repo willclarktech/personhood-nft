@@ -1,5 +1,9 @@
 import axios from "axios";
-import { grecaptchaBaseUrl } from "./constants";
+import {
+	grecaptchaBaseUrl,
+	grecaptchaSecret,
+	grecaptchaSiteVerifyPath,
+} from "./constants";
 
 const grecaptchaClient = axios.create({
 	baseURL: grecaptchaBaseUrl,
@@ -8,4 +12,18 @@ const grecaptchaClient = axios.create({
 	},
 });
 
-export default grecaptchaClient;
+const client = {
+	post: (token: string) =>
+		grecaptchaClient.post(
+			grecaptchaSiteVerifyPath,
+			{},
+			{
+				params: {
+					secret: grecaptchaSecret,
+					response: token,
+				},
+			},
+		),
+};
+
+export default client;

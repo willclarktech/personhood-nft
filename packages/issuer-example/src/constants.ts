@@ -5,6 +5,7 @@ if (!process.env.GRECAPTCHA_SECRET) {
 }
 export const grecaptchaSecret = process.env.GRECAPTCHA_SECRET;
 export const grecaptchaBaseUrl = "https://www.google.com/recaptcha/api";
+export const grecaptchaSiteVerifyPath = "/siteverify";
 
 export const publicPath = path.join(__dirname, "..", "public");
 export const port = process.env.PORT || 3002;
@@ -18,3 +19,8 @@ export const contractAddress =
 
 export const ethAddressRegExp = /0x[a-f0-9]{40}/i;
 export const ethProvider = process.env.ETH_PROVIDER || "ws://localhost:8545";
+
+export const indexPath = "/";
+export const submitPath = "/submit";
+export const failurePage = "/failure.html";
+export const successPage = "/success.html";
