@@ -11,16 +11,21 @@ export const issueToken: RequestHandler = async (req, res) => {
 		return;
 	}
 
-	const { transactionHash } = await personhoodNftContract.methods
-		.issue(address)
-		.send();
+	try {
+		const { transactionHash } = await personhoodNftContract.methods
+			.issue(address)
+			.send();
 
-	if (!transactionHash) {
-		console.error("transaction failed");
+		if (!transactionHash) {
+			console.error("transaction failed");
+			res.redirect(failurePage);
+			return;
+		}
+
+		console.info(`sent transaction: ${transactionHash}`);
+		res.redirect(successPage);
+	} catch (error) {
+		console.error(error.message || error.code || "unknown error");
 		res.redirect(failurePage);
-		return;
 	}
-
-	console.info(`sent transaction: ${transactionHash}`);
-	res.redirect(successPage);
 };

@@ -30,33 +30,38 @@ export const getPersonhoodScore: RequestHandler = async (req, res, next) => {
 		return;
 	}
 
-	const { data } = await grecaptchaClient.post(grecaptcha);
+	try {
+		const { data } = await grecaptchaClient.post(grecaptcha);
 
-	if (!data.success) {
-		console.error(`unsuccessful grecaptcha: ${data["error-codes"]}`);
+		if (!data.success) {
+			console.error(`unsuccessful grecaptcha: ${data["error-codes"]}`);
+			res.redirect(failurePage);
+			return;
+		}
+
+		if (
+			data.action !== grecaptchaAction ||
+			data.hostname !== grecaptchaHostname
+		) {
+			console.error(
+				`incorrect grecaptcha action or hostname: ${data.action}; ${data.hostname}`,
+			);
+			res.redirect(failurePage);
+			return;
+		}
+
+		const datetime = new Date(data.challenge_ts);
+		if (Date.now() - datetime.getTime() > grecaptchaMaxAge) {
+			console.error("grecaptcha too old");
+		}
+
+		res.locals.score = data.score;
+
+		next();
+	} catch (error) {
+		console.error(error.message || error.code || "unknown error");
 		res.redirect(failurePage);
-		return;
 	}
-
-	if (
-		data.action !== grecaptchaAction ||
-		data.hostname !== grecaptchaHostname
-	) {
-		console.error(
-			`incorrect grecaptcha action or hostname: ${data.action}; ${data.hostname}`,
-		);
-		res.redirect(failurePage);
-		return;
-	}
-
-	const datetime = new Date(data.challenge_ts);
-	if (Date.now() - datetime.getTime() > grecaptchaMaxAge) {
-		console.error("grecaptcha too old");
-	}
-
-	res.locals.score = data.score;
-
-	next();
 };
 
 export const checkScore: RequestHandler = (req, res, next) => {
