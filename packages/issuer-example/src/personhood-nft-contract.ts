@@ -13,6 +13,6 @@ const personhoodNftContract = new web3.eth.Contract(
 	personhoodNFT.abi as AbiItem[],
 	contractAddress,
 	contractOptions,
-) as any;
+) as any; // eslint-disable-line @typescript-eslint/no-explicit-any
 
 export default personhoodNftContract;
