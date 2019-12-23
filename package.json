@@ -38,6 +38,7 @@
 		"ganache-cli": "^6.7.0",
 		"lerna": "^3.19.0",
 		"prettier": "^1.19.1",
+		"puppeteer": "^2.0.0",
 		"truffle": "^5.1.4",
 		"typescript": "^3.7.3",
 		"web3-core": "^1.2.4"
