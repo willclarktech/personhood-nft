@@ -20,6 +20,7 @@
 		"packages/*"
 	],
 	"scripts": {
+		"create-test-account": "node scripts/create-test-account.js",
 		"format": "lerna run format",
 		"lint": "lerna run lint",
 		"test": "lerna run test",
