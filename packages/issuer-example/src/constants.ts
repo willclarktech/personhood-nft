@@ -4,6 +4,8 @@ if (!process.env.GRECAPTCHA_SECRET) {
 	throw new Error("Must set env variable GRECAPTCHA_SECRET");
 }
 export const grecaptchaSecret = process.env.GRECAPTCHA_SECRET;
+export const grecaptchaBaseUrl = "https://www.google.com/recaptcha/api";
+
 export const port = process.env.PORT || 3002;
 export const publicPath = path.join(__dirname, "..", "public");
 export const minimumPersonhoodScore = 0.5;

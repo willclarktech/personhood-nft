@@ -1,4 +1,3 @@
-import axios from "axios";
 import bodyParser from "body-parser";
 import express, { RequestHandler } from "express";
 import {
@@ -9,13 +8,7 @@ import {
 	port,
 } from "./constants";
 import { contract } from "./ethereum";
-
-const grecaptchaClient = axios.create({
-	baseURL: "https://www.google.com/recaptcha/api",
-	headers: {
-		"Content-Type": "application/json",
-	},
-});
+import grecaptchaClient from "./grecaptcha-client";
 
 const validateForm: RequestHandler = (req, res, next) => {
 	const { address, grecaptcha } = req.body;
