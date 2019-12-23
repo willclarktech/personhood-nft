@@ -5,16 +5,16 @@ import {
 	grecaptchaSiteVerifyPath,
 } from "./constants";
 
-const grecaptchaClient = axios.create({
+const baseClient = axios.create({
 	baseURL: grecaptchaBaseUrl,
 	headers: {
 		"Content-Type": "application/json",
 	},
 });
 
-const client = {
+const grecaptchaClient = {
 	post: (token: string) =>
-		grecaptchaClient.post(
+		baseClient.post(
 			grecaptchaSiteVerifyPath,
 			{},
 			{
@@ -26,4 +26,4 @@ const client = {
 		),
 };
 
-export default client;
+export default grecaptchaClient;
