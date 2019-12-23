@@ -6,6 +6,9 @@ if (!process.env.GRECAPTCHA_SECRET) {
 export const grecaptchaSecret = process.env.GRECAPTCHA_SECRET;
 export const grecaptchaBaseUrl = "https://www.google.com/recaptcha/api";
 export const grecaptchaSiteVerifyPath = "/siteverify";
+export const grecaptchaAction = "social";
+export const grecaptchaHostname = "localhost";
+export const grecaptchaMaxAge = 60 * 1000;
 
 export const publicPath = path.join(__dirname, "..", "public");
 export const port = process.env.PORT || 3002;

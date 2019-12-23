@@ -3,6 +3,9 @@ import {
 	ethAddressRegExp,
 	failurePage,
 	minimumPersonhoodScore,
+	grecaptchaAction,
+	grecaptchaHostname,
+	grecaptchaMaxAge,
 } from "./constants";
 import grecaptchaClient from "./grecaptcha-client";
 
@@ -33,6 +36,22 @@ export const getPersonhoodScore: RequestHandler = async (req, res, next) => {
 		console.error(`unsuccessful grecaptcha: ${data["error-codes"]}`);
 		res.redirect(failurePage);
 		return;
+	}
+
+	if (
+		data.action !== grecaptchaAction ||
+		data.hostname !== grecaptchaHostname
+	) {
+		console.error(
+			`incorrect grecaptcha action or hostname: ${data.action}; ${data.hostname}`,
+		);
+		res.redirect(failurePage);
+		return;
+	}
+
+	const datetime = new Date(data.challenge_ts);
+	if (Date.now() - datetime.getTime() > grecaptchaMaxAge) {
+		console.error("grecaptcha too old");
 	}
 
 	res.locals.score = data.score;
