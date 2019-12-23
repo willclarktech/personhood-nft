@@ -7,7 +7,7 @@ import {
 	publicPath,
 	port,
 } from "./constants";
-import { contract } from "./ethereum";
+import personhoodNftContract from "./personhood-nft-contract";
 import grecaptchaClient from "./grecaptcha-client";
 
 const validateForm: RequestHandler = (req, res, next) => {
@@ -59,7 +59,9 @@ const checkScore: RequestHandler = (req, res, next) => {
 
 const issueToken: RequestHandler = async (req, res) => {
 	const { address } = req.body;
-	const { transactionHash } = await contract.methods.issue(address).send();
+	const { transactionHash } = await personhoodNftContract.methods
+		.issue(address)
+		.send();
 
 	if (!transactionHash) {
 		console.error("transaction failed");
