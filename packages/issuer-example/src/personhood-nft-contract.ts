@@ -7,6 +7,7 @@ const web3 = new Web3(ethProvider);
 
 const contractOptions = {
 	from: issuerAddress,
+	gas: 6700000,
 };
 
 const personhoodNftContract = new web3.eth.Contract(
