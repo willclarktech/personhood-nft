@@ -90,7 +90,7 @@ export const getChallenge: (
 	subscription.on("data", onData).on("error", onError);
 };
 
-export const serveText: RequestHandler = (req, res) => {
+export const serveKitten: RequestHandler = (req, res) => {
 	const kitten = readFileSync(kittenPath);
 	res.send(kitten);
 };

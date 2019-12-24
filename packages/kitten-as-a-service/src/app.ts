@@ -1,7 +1,7 @@
 import express from "express";
 import Web3 from "web3";
 import { hasPaid, sessionMiddleware } from "./middleware";
-import { serveText, getChallenge } from "./handlers";
+import { serveKitten, getChallenge } from "./handlers";
 import { spendEventTopic, ethProvider, port } from "./constants";
 
 const web3 = new Web3(ethProvider);
@@ -12,6 +12,6 @@ const app = express()
 	.set("port", port)
 	.use(sessionMiddleware)
 	.get("/challenge", getChallenge(web3, topics, challenges))
-	.get("/kitten", hasPaid(challenges), serveText);
+	.get("/kitten", hasPaid(challenges), serveKitten);
 
 export default app;
