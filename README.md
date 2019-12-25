@@ -36,7 +36,7 @@ The basic workflow is as follows:
 
 ## Prerequisites
 
-This project uses a monorepo structure with `lerna`. The npm client is `yarn`, because of its workspaces integration with `lerna`.
+This is a Node.js project with a monorepo structure organised by `lerna`. The npm client is `yarn`, because of its workspaces integration with `lerna`.
 
 ## Install
 
@@ -46,13 +46,17 @@ yarn
 
 ## Testing
 
-### Step 1: Deploy an Ethereum blockchain instance and the `PersonhoodNFT` contract
+### Step 1: Deploy an Ethereum blockchain instance
 
 ```
 yarn lerna run serve --stream --scope personhood-nft-contracts
 ```
 
-Note: currently the blockchain instance will have to be stopped and redeployed before each test run as the contract address is assumed to be constant.
+### Step 2: Deploy the `PersonhoodNFT` contract
+
+```
+yarn lerna run migrate --scope personhood-nft-contracts
+```
 
 ### Step 2: Deploy a market rate API server
 
@@ -60,7 +64,7 @@ Note: currently the blockchain instance will have to be stopped and redeployed b
 yarn lerna run serve --stream --scope market-api-example
 ```
 
-### Step 3: Deploy a issuer server
+### Step 3: Deploy an issuer server
 
 This is an example token issuer service which mints tokens for anyone who asks, but uses Google reCAPTCHA v3 to filter out spam requests. To run the service you will need to register with Google reCAPTCHA for a secret key and set it as an environmental variable. See [Google reCAPTCHA docs](https://developers.google.com/recaptcha/docs/v3) for more information.
 
@@ -91,6 +95,8 @@ Or just the integration tests:
 yarn lerna run test:integration --stream --scope personhood-nft-contracts
 ```
 
+_Note: currently the blockchain instance and web services which connect to it will have to be stopped and redeployed before each test run as the contract address is assumed to be constant._
+
 #### Manual tests
 
 For a manual run through the workflow described above try the following...
@@ -101,41 +107,34 @@ For a manual run through the workflow described above try the following...
 curl http://localhost:3000/kitten
 ```
 
-1. Make sure you have a temporary directory:
+2. Make sure you have a temporary directory:
 
 ```
 mkdir -p tmp
 ```
 
-1. Create an Ethereum private key and address:
+3. Visit the Personhood NFT issuer site:
 
 ```
-yarn --silent create-test-account > tmp/account.json
-cat tmp/account.json
+open http://localhost:3002/?address=0xFFcf8FDEE72ac11b5c542428B35EEF5769C409f0
 ```
 
-1. Visit the Personhood NFT issuer site:
+A `0x`-prefixed, hex-encoded Ethereum address should be prepopulated. Wait for the Google reCAPTCHA widget to load and submit the form. You should be redirected to the success page, displaying your newly minted token ID.
 
-```
-open http://localhost:3002/
-```
-
-Wait for the Google reCAPTCHA widget to load, enter your `0x`-prefixed, hex-encoded Ethereum address, and submit the form. You should be redirected to the success page.
-
-1. Get a challenge from the web service (kitten-as-a-service):
+4. Get a challenge from the web service (kitten-as-a-service):
 
 ```
 curl --fail --silent --cookie-jar tmp/cookies http://localhost:3000/challenge > tmp/challenge
 cat tmp/challenge
 ```
 
-1. Burn the token using your address, the address of the web service, the challenge, and the token ID.
+5. Burn the token using the token ID and the challenge.
 
 ```
-TODO: xxx
+node scripts/burn-token.js <token ID> <challenge>
 ```
 
-1. Access the kitten
+6. Access the kitten
 
 ```
 curl --fail --silent --cookie tmp/cookies http://localhost:3000/kitten > tmp/kitten.jpg
