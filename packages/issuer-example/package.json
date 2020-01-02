@@ -9,6 +9,7 @@
 	},
 	"scripts": {
 		"lint": "eslint src/**/*.ts",
+		"format": "prettier --write ./*.{json,md} {public,src}/**/*.{css,html,js,json,ts}",
 		"build": "tsc",
 		"preserve": "yarn build",
 		"serve": "node build/server.js"
